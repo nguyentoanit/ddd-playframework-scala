@@ -4,7 +4,9 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           application.HomeController.index
+GET        /                    application.HomeApplication.index
+GET        /article/create                    application.ArticleApplication.create
+POST       /article/create                    application.ArticleApplication.create
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
