@@ -8,13 +8,13 @@ private object ArticleDAO extends SQLSyntaxSupport[ArticleDTO] {
   override val tableName = "articles"
   override val columns = Seq("id", "title", "thumbnail", "content", "created_on")
 
-  def apply(rs: WrappedResultSet): ArticleDTO =
+  def apply(a: ResultName[ArticleDTO])(rs: WrappedResultSet): ArticleDTO =
     ArticleDTO(
-      id = rs.long("id"),
-      title = rs.string("content"),
-      thumbnail = rs.string("thumbnail"),
-      content = rs.string("content"),
-      createdOn = rs.date("created_on")
+      id = rs.long(a.id),
+      title = rs.string(a.title),
+      thumbnail = rs.string(a.thumbnail),
+      content = rs.string(a.content),
+      createdOn = rs.date(a.createdOn)
     )
 }
 
@@ -31,6 +31,6 @@ class ArticleDAO {
   def getByID(id: Long): Option[ArticleDTO] =
     withSQL {
       select.from(ArticleDAO as a).where.eq(a.id, id)
-    }.map(rs => ArticleDAO(rs)).single().apply()
+    }.map(rs => ArticleDAO(a.resultName)(rs)).single().apply()
 }
 

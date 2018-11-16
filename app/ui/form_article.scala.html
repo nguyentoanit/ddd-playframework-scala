@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <h1>Article Form</h1>
-            <form name="article" method="POST" action="/article/create" enctype="multipart/form-data">
+            <form id="article" name="article" method="POST" action="/article/create" enctype="multipart/form-data">
                 @CSRF.formField
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -23,9 +23,4 @@
             </form>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#content').summernote({height: 400});
-        });
-    </script>
 }

@@ -1,0 +1,21 @@
+@import domain.Article.entity.Article
+@(article: Article)
+
+@main("Article detail") {
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-lg-2">
+                    <img src="/file/@article.thumbnail.value" class="img-thumbnail" alt="Article thumbnail" style="width: 100px">
+                </div>
+                <div class="col-lg-10">
+                    <h1 style="font-family: Arial">@article.title</h1>
+                    <p><small class="text-muted">Created on: @article.createdOn.toString.replace("-", "/")</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div>@Html(article.content)</div>
+        </div>
+    </div>
+}
