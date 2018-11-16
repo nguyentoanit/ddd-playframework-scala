@@ -24,6 +24,17 @@ class ArticleDAOSpec extends Specification with TestDBUtil with BeforeEach with 
         articleDAO.create(articleDTO) mustEqual 1
       }
     }
+
+    "getByID" >> {
+      "when [request an existing id] return [Some[ArticleDTO]]" >> {
+        val articleDTO: ArticleDTO = ArticleDTO("a", "a", "a", createdOn = new Date())
+        articleDAO.create(articleDTO)
+        articleDAO.getByID(1) must beSome[ArticleDTO]
+      }
+      "when [request an id that doesn't exist] return [None]" >> {
+        articleDAO.getByID(-1) must beNone
+      }
+    }
   }
 
   override protected def after: Any = {

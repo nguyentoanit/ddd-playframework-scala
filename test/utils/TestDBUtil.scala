@@ -7,9 +7,9 @@ import play.api.db.evolutions.Evolutions
 import scalikejdbc.ConnectionPool
 
 trait TestDBUtil {
-  val url = "jdbc:mysql://127.0.0.1:3306/ddd_testdb?useSSL=false"
+  val url = "jdbc:mysql://127.0.0.1:8889/ddd_test?useSSL=false"
   val username = "root"
-  val password = "root123"
+  val password = "root"
 
   val database = Databases(
     driver = "com.mysql.jdbc.Driver",
