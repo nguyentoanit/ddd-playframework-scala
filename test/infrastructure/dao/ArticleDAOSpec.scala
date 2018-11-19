@@ -1,7 +1,6 @@
 package infrastructure.dao
 
 import java.sql.Connection
-import java.util.Date
 
 import infrastructure.dto.ArticleDTO
 import org.specs2.mutable.Specification
@@ -20,14 +19,14 @@ class ArticleDAOSpec extends Specification with TestDBUtil with BeforeEach with 
   "ArticleDAO" >> {
     "create" >> {
       "when [request information of an article that need to be created] return [id of the article]" >> {
-        val articleDTO: ArticleDTO = ArticleDTO("a", "a", "a", createdOn = new Date())
+        val articleDTO: ArticleDTO = ArticleDTO("a", "a", "a")
         articleDAO.create(articleDTO) mustEqual 1
       }
     }
 
     "getByID" >> {
       "when [request an existing id] return [Some[ArticleDTO]]" >> {
-        val articleDTO: ArticleDTO = ArticleDTO("a", "a", "a", createdOn = new Date())
+        val articleDTO: ArticleDTO = ArticleDTO("a", "a", "a")
         articleDAO.create(articleDTO)
         articleDAO.getByID(1) must beSome[ArticleDTO]
       }
