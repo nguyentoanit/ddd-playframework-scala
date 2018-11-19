@@ -1,8 +1,9 @@
 package application
+
 import java.nio.file.Paths
 
 import domain.Article.entity.Article
-import domain.Article.repositoy.ArticleRepository
+import domain.Article.repository.ArticleRepository
 import domain.Article.valueobject.FilePath
 import domain.services.UploadService
 import exception.EntityNotFoundException
