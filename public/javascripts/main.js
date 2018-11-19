@@ -12,4 +12,11 @@ $(document).ready(function() {
             $('#article').submit();
         }
     })
+    $("#thumbnail").change(function() {
+        var size = $("#thumbnail")[0].files[0].size / 1024
+        if(size > 400) {
+            $("#thumbnail").val("");
+            alert("File size is above 400KB. Please choose another file!")
+        }
+    })
 });

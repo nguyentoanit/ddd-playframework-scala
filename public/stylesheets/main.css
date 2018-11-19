@@ -1,0 +1,20 @@
+.panel .panel-body {
+    overflow: scroll;
+}
+.panel-body img {
+    width: 100%;
+}
+
+.img-thumbnail {
+    color: #000000;
+}
+
+#login-form {
+    width: 340px;
+    margin: 50px auto;
+    background: #f0bd76;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    height: 300px;
+    top: 20%;
+}
