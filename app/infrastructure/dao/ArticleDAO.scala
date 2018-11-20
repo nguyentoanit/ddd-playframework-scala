@@ -6,7 +6,7 @@ import scalikejdbc._
 
 private object ArticleDAO extends SQLSyntaxSupport[ArticleDTO] {
   override val tableName = "articles"
-  override val columns = Seq("id", "title", "thumbnail", "content", "created_on")
+  override val columns = Seq("id", "title", "thumbnail", "content", "created_at", "updated_at")
 
   def apply(a: ResultName[ArticleDTO])(rs: WrappedResultSet): ArticleDTO =
     ArticleDTO(
@@ -14,7 +14,8 @@ private object ArticleDAO extends SQLSyntaxSupport[ArticleDTO] {
       title = rs.string(a.title),
       thumbnail = rs.string(a.thumbnail),
       content = rs.string(a.content),
-      createdOn = rs.date(a.createdOn)
+      createdAt = rs.date(a.createdAt),
+      updatedAt = rs.date(a.updatedAt)
     )
 }
 
@@ -24,8 +25,8 @@ class ArticleDAO {
   val a = ArticleDAO.syntax("a")
 
   def create(articleDTO: ArticleDTO): Long = withSQL {
-    insert.into(ArticleDAO).columns(c.title, c.thumbnail, c.content, c.createdOn)
-      .values(articleDTO.title, articleDTO.thumbnail, articleDTO.content, articleDTO.createdOn)
+    insert.into(ArticleDAO).columns(c.title, c.thumbnail, c.content)
+      .values(articleDTO.title, articleDTO.thumbnail, articleDTO.content)
   }.updateAndReturnGeneratedKey.apply()
 
   def getByID(id: Long): Option[ArticleDTO] =
