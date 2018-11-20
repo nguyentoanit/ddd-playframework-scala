@@ -18,3 +18,8 @@
     height: 300px;
     top: 20%;
 }
+
+#login-button {
+    cursor: pointer;
+    display: none;
+}

@@ -19,4 +19,6 @@ $(document).ready(function() {
             alert("File size is above 400KB. Please choose another file!")
         }
     })
+
+    if(!$("#login-information").html()) $("#login-button").show()
 });
