@@ -1,61 +1,48 @@
 package application
 
+import application.forms.Account.{ passwordCheckConstraint, usernameCheckConstraint }
+import application.forms.CreatingInput
 import domain.Account.entity.Account
 import domain.Account.repository.AccountRepository
 import javax.inject.{ Inject, Singleton }
+import play.api.data.Form
 import play.api.data.Forms._
-import play.api.data._
-import play.api.data.validation.{ Constraint, Invalid, Valid, ValidationError }
+import play.api.i18n.{ Lang, Messages }
 import play.api.mvc.{ AbstractController, ControllerComponents, EssentialAction }
+import application.forms.LoginData
+import application.forms.Login.loginForm
 
 @Singleton
 class AccountApplication @Inject() (cc: ControllerComponents, repository: AccountRepository) extends AbstractController(cc) {
-  private val allNumbers = """\d*""".r
-  private val allUpperCaseLetters = """[A-Z]*""".r
-  private val allLowerCaseLetters = """[a-z]*""".r
 
-  private val passwordCheckConstraint: Constraint[String] = Constraint("constraints.passwordcheck")({
-    plainText =>
-      val errors = plainText match {
-        case allNumbers()          => Seq(ValidationError("Password is all numbers"))
-        case allUpperCaseLetters() => Seq(ValidationError("Password is all upper case letters"))
-        case allLowerCaseLetters() => Seq(ValidationError("Password is all lower case letters"))
-        case _                     => Nil
-      }
-      if (errors.isEmpty) {
-        Valid
-      } else {
-        Invalid(errors)
-      }
-  })
+  implicit val messages: Messages = messagesApi.preferred(Seq(Lang.defaultLang))
 
-  private val passwordCheck: Mapping[String] = nonEmptyText(minLength = 8, maxLength = 20)
-    .verifying(passwordCheckConstraint)
+  val creatingForm = forms.Account.initCreatingForm
 
-  val accountForm = Form(
-    mapping(
-      "Name" -> nonEmptyText(maxLength = 50),
-      "Mail address" -> email,
-      "Password" -> passwordCheck,
-      "ID" -> default(longNumber, 0L)
-    )(Account.apply)(Account.unapply)
-  )
-  val loginForm = Form(
-    mapping(
-      "email" -> nonEmptyText,
-      "password" -> nonEmptyText,
-    )(LoginData.apply)(LoginData.unapply)
-  )
-
-  def create(): EssentialAction = Action {
-    Ok("Created successfully!")
+  def show(): EssentialAction = Action { implicit request =>
+    Ok(ui.html.form_account(creatingForm))
   }
 
-  def show(): EssentialAction = Action {
-    Ok("Creating form")
+  def create(): EssentialAction = Action(parse.form(creatingForm)) {
+    implicit request =>
+      val input = request.body
+      val account = Account(input.username, input.mailAddress, input.password)
+      repository.store(account).map {
+        case Right(id) =>
+          play.api.Logger.info(s"New account is created successfully with id " + id)
+          Redirect(routes.AccountApplication.show())
+        case Left(errorNotification) => InternalServerError("INTERNAL SERVER ERROR (500) - " + errorNotification)
+      }.recover {
+        case exception: RuntimeException => InternalServerError("INTERNAL SERVER ERROR (500) - " + exception.getMessage)
+      }.get
   }
 
   def login() = Action(parse.form(loginForm)) { implicit request =>
-    Ok("Creating form")
+    val result = repository.resolveBy(request.body.email, request.body.password)
+    val message = result.username match {
+      case "" => "Wrong email or Password! Please try again."
+      case _  => "Login successfully!"
+    }
+    Redirect(request.body.origin).flashing("info" -> message).withSession("username" -> result.username)
   }
 }
