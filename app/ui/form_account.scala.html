@@ -1,0 +1,14 @@
+@import helper.CSRF
+@import application.forms.CreatingInput
+@(form: Form[CreatingInput])(implicit messages: Messages, request: RequestHeader))
+@main("Account Form") {
+    <h1>Account Form</h1>
+    <form action="/account/create" method="post">
+        @CSRF.formField
+        @helper.inputText(form("Username"))
+        @helper.inputText(form("Mail address"))
+        @helper.inputText(form("Password"))
+        @helper.inputText(form("Repeated password"))
+        <input type="submit" value="Create">
+    </form>
+}

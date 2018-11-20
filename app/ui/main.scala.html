@@ -4,7 +4,8 @@
 * two arguments, a `String` for the title of the page and an `Html`
 * object to insert into the body of the page.
 *@
-@(title: String)(content: Html)
+@(title: String)(content: Html)(implicit request : RequestHeader, flash: Flash)
+@import helper.CSRF
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +24,42 @@
         @* And here's where we render the `Html` object containing
         * the page content. *@
     <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Home</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="/account/create">Create Account</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a>@flash.get("info").getOrElse("")</a></li>
+                        <li><a id="login-button" onclick="$('#login-form').show()">Login</a></li>
+                        <li><a id="login-information">@request.session.get("username").getOrElse("")</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="modal" id="login-form" style="display:none" >
+            <form action="/login" method="POST">
+                @CSRF.formField
+                <input type='hidden' name='origin' value='@request.headers("Raw-Request-URI")' />
+                <h2 class="text-center">Log in</h2>       
+                <div class="form-group"> 
+                    <input type="email" name="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Password" maxlength="20" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block">Log in</button>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-danger btn-block" onclick="$('#login-form').hide()" value="Close">
+                </div>
+            </form>
+        </div>
     @content
     </div>
     <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>

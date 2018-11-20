@@ -1,8 +1,8 @@
 @import domain.Article.entity.Article
-@(article: Article)
+@(article: Article)(implicit request: RequestHeader, flash: Flash)
 
 @main("Article detail") {
-    <div class="panel panel-info">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-lg-2">
@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-lg-10">
                     <h1 style="font-family: Arial">@article.title</h1>
-                    <p><small class="text-muted">Created on: @article.createdOn.toString.replace("-", "/")</small></p>
+                    <small>Created on: @article.createdAt.toString.replace("-", "/")</small>
                 </div>
             </div>
         </div>

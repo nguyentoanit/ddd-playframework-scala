@@ -1,5 +1,5 @@
-@()(implicit request: RequestHeader)
-@import helper.CSRF
+@()(implicit request: RequestHeader, flash: Flash)
+    @import helper.CSRF
 
 @main("Article Form") {
     <div class="row">
@@ -10,14 +10,17 @@
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" name="title" class="form-control" id="title" placeholder="Enter title" required maxlength="250" />
+                    <p class="text-warning">Required. Maximum of length is 250 characters</p>
                 </div>
                 <div class="form-group">
                     <label for="thumbnail">Thumbnail</label>
                     <input type="file" name="thumbnail" class="form-control" id="thumbnail" accept="image/*" required>
+                    <p class="text-warning">Required. Maximum of file size is 400 kb</p>
                 </div>
                 <div class="form-group">
                     <label for="content">Content</label>
                     <textarea name="content" class="form-control" id="content" required></textarea>
+                    <p class="text-warning">Required</p>
                 </div>
                 <button type="submit" class="btn btn-primary">Create</button>
             </form>
