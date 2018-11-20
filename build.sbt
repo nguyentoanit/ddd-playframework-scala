@@ -20,6 +20,9 @@ libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc-play-dbapi-adapter" % "2.6.0-scalikejdbc-3.3"
 )
 
+// https://mvnrepository.com/artifact/javax.validation/validation-api
+libraryDependencies += "javax.validation" % "validation-api" % "2.0.1.Final"
+
 com.typesafe.sbt.SbtScalariform.ScalariformKeys.preferences := {
   import scalariform.formatter.preferences._
   FormattingPreferences()
