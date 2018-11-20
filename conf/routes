@@ -4,8 +4,13 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET        /article/:id         application.ArticleApplication.get(id: Long)
-GET        /file/*path          application.ArticleApplication.file(path)
+GET         /                      application.ArticleApplication.show
+POST        /article/create        application.ArticleApplication.create
+GET         /article/:id           application.ArticleApplication.get(id: Long)
+GET         /file/*path            application.ArticleApplication.file(path)
+GET         /account/create        application.AccountApplication.show
+POST        /account/create        application.AccountApplication.create
+POST        /login                 application.AccountApplication.login
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file          controllers.Assets.versioned(path="/public", file: Asset)
