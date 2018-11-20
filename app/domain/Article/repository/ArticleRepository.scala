@@ -1,6 +1,4 @@
-package domain.Article.repositoy
-
-import java.util.Date
+package domain.Article.repository
 
 import domain.Article.entity.Article
 import domain.Article.valueobject.{ ArticleID, FilePath }
@@ -16,7 +14,7 @@ class ArticleRepository @Inject() (articleDAO: ArticleDAO) {
   def create(article: Article): Article = {
     val articleDTO: ArticleDTO = toDTO(article)
     val id: ArticleID = ArticleID(articleDAO.create(articleDTO))
-    Article(article.title, article.thumbnail, article.content, id, articleDTO.createdOn)
+    Article(article.title, article.thumbnail, article.content, id, articleDTO.createdAt, articleDTO.updatedAt)
   }
 
   def getByID(id: Long): Try[Article] = Try {
@@ -27,10 +25,9 @@ class ArticleRepository @Inject() (articleDAO: ArticleDAO) {
   }
 
   private def toDTO(article: Article): ArticleDTO = {
-    val createdOn = new Date()
-    ArticleDTO(article.title, article.thumbnail.value, article.content, createdOn)
+    ArticleDTO(article.title, article.thumbnail.value, article.content)
   }
 
   private def toEntity(dto: ArticleDTO): Article =
-    Article(dto.title, FilePath(dto.thumbnail), dto.content, ArticleID(dto.id), dto.createdOn)
+    Article(dto.title, FilePath(dto.thumbnail), dto.content, ArticleID(dto.id), dto.createdAt, dto.updatedAt)
 }

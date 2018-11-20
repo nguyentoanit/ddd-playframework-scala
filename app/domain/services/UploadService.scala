@@ -1,8 +1,9 @@
 package domain.services
-import javax.inject._
-import play.api.mvc._
-import play.api.libs.Files.TemporaryFile
+
 import java.nio.file.Paths
+
+import play.api.libs.Files.TemporaryFile
+import play.api.mvc._
 
 class UploadService {
   def uploadFile(request: Request[MultipartFormData[TemporaryFile]]): Option[String] = {
