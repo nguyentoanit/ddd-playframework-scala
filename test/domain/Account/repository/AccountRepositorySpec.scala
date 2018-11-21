@@ -16,9 +16,15 @@ class AccountRepositorySpec extends Specification with Mockito {
         accountDAO.store(any[AccountDTO]) returns 1
         accountRepository.store(Account("a", "abc@abc", "123456aA")).get must beRight[Account]
       }
-      "when [store an account with existing username] return [Left(errorNotification)]" >> {
-        accountDAO.store(any[AccountDTO]) throws new RuntimeException("Duplicate entry 'a' for key 'username'")
-        accountRepository.store(Account("a", "abc@abc", "123456aA")) === Left("Duplicate entry 'a' for key 'username'")
+    }
+    "resolveBy" >> {
+      "When login with incorrect email and password return a Account Entity" >> {
+        accountDAO.resolveBy(any[String], any[String]) returns None
+        accountRepository.resolveBy("", "") must beAnInstanceOf[Account]
+      }
+      "When login with correct email and password return a Account Entity" >> {
+        accountDAO.resolveBy(any[String], any[String]) returns Option(mock[AccountDTO])
+        accountRepository.resolveBy("", "") must beAnInstanceOf[Account]
       }
     }
   }
