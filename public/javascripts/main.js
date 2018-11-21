@@ -20,5 +20,14 @@ $(document).ready(function() {
         }
     })
 
-    if(!$("#login-information").html()) $("#login-button").show()
+    if($("#login-information").html() != "") $("#login-button").hide()
 });
+
+function login(){
+    $('#login-form').show()
+}
+
+function logout(){
+    var result = confirm("Are you sure you want to log out?");
+    if(result) window.location = "/logout";
+}
