@@ -28,8 +28,8 @@ class AccountApplication @Inject() (cc: ControllerComponents, repository: Accoun
       val input = request.body
       val account = Account(input.username, input.mailAddress, input.password)
       repository.store(account).map {
-        case Right(id) =>
-          play.api.Logger.info(s"New account is created successfully with id " + id)
+        case Right(a) =>
+          play.api.Logger.info(s"New account is created successfully with id " + a.id.value)
           Redirect(routes.AccountApplication.show())
         case Left(errorNotification) => InternalServerError("INTERNAL SERVER ERROR (500) - " + errorNotification)
       }.recover {
@@ -38,7 +38,7 @@ class AccountApplication @Inject() (cc: ControllerComponents, repository: Accoun
   }
 
   def login() = Action(parse.form(loginForm)) { implicit request =>
-    val result = repository.resolveBy(request.body.email, request.body.password)
+    val result: Account = repository.resolveBy(request.body.email, request.body.password)
     val message = result.username match {
       case "" => "Wrong email or Password! Please try again."
       case _  => "Login successfully!"

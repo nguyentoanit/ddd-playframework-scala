@@ -28,14 +28,21 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Home</a>
+                        <a class="navbar-brand" href="/">Home</a>
                     </div>
                     <ul class="nav navbar-nav">
                         <li><a href="/account/create">Create Account</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a>@flash.get("info").getOrElse("")</a></li>
-                        <li><a id="login-button" onclick="$('#login-form').show()">Login</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a id="login-button" onclick="login()">Login</a></li></li>
+                                <li><a id="logout-button" onclick="logout()" >Logout</a></li>
+                            </ul>
+                        </li>
                         <li><a id="login-information">@request.session.get("username").getOrElse("")</a></li>
                     </ul>
                 </div>

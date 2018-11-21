@@ -1,6 +1,6 @@
 @import helper.CSRF
 @import application.forms.CreatingInput
-@(form: Form[CreatingInput])(implicit messages: Messages, request: RequestHeader))
+@(form: Form[CreatingInput])(implicit messages: Messages, request: RequestHeader, flash: Flash))
 @main("Account Form") {
     <h1>Account Form</h1>
     <form action="/account/create" method="post">
