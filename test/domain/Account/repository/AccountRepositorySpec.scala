@@ -18,13 +18,13 @@ class AccountRepositorySpec extends Specification with Mockito {
       }
     }
     "resolveBy" >> {
-      "When login with incorrect email and password return a Account Entity" >> {
+      "When login with incorrect email and password return None" >> {
         accountDAO.resolveBy(any[String], any[String]) returns None
-        accountRepository.resolveBy("", "") must beAnInstanceOf[Account]
+        accountRepository.resolveBy("", "") must beNone
       }
       "When login with correct email and password return a Account Entity" >> {
         accountDAO.resolveBy(any[String], any[String]) returns Option(mock[AccountDTO])
-        accountRepository.resolveBy("", "") must beAnInstanceOf[Account]
+        accountRepository.resolveBy("", "").get must beAnInstanceOf[Account]
       }
     }
   }

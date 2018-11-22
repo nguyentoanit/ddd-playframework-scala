@@ -43,17 +43,17 @@ class AccountApplicationSpec extends Specification with Mockito with Inject {
     }
     "login" >> {
       "When login with empty parameters Return 400 error code" in new WithApplication {
-        repository.resolveBy(any[String], any[String]) returns Account("username1", "email@example.com", "password", 1)
+        repository.resolveBy(any[String], any[String]) returns None
         val request = FakeRequest("POST", "/login").withFormUrlEncodedBody(
           ("email", ""),
           ("password", ""),
           ("origin", "")
         )
         val result = call(application.login, request)
-        status(result) must equalTo(400)
+        status(result) must equalTo(303)
       }
       "When login with correct account Then redirect to current URL with username session and message" in new WithApplication {
-        repository.resolveBy(any[String], any[String]) returns Account("username1", "email@example.com", "password", 1)
+        repository.resolveBy(any[String], any[String]) returns Option(Account("username1", "email@example.com", "password", 1))
         val request = FakeRequest("POST", "/login").withFormUrlEncodedBody(
           ("email", "email@example.comm"),
           ("password", "password"),
@@ -66,7 +66,7 @@ class AccountApplicationSpec extends Specification with Mockito with Inject {
 
       }
       "When login with incorrect account Then redirect to current URL with empty username session and message" in new WithApplication {
-        repository.resolveBy(any[String], any[String]) returns Account("", "", "", 0)
+        repository.resolveBy(any[String], any[String]) returns None
         val request = FakeRequest("POST", "/login").withFormUrlEncodedBody(
           ("email", "email@example.comm"),
           ("password", "password"),
