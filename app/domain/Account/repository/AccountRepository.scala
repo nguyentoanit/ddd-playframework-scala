@@ -19,10 +19,10 @@ class AccountRepository @Inject() (dao: AccountDAO) {
     }
   }
 
-  def resolveBy(email: String, password: String): Account = {
+  def resolveBy(email: String, password: String): Option[Account] = {
     dao.resolveBy(email, password) match {
-      case Some(dto) => toEntity(dto)
-      case None      => Account("", "", "", 0)
+      case Some(dto) => Option(toEntity(dto))
+      case None      => None
     }
   }
 

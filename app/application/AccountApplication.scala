@@ -37,12 +37,13 @@ class AccountApplication @Inject() (cc: ControllerComponents, repository: Accoun
       }.get
   }
 
-  def login() = Action(parse.form(loginForm)) { implicit request =>
-    val result: Account = repository.resolveBy(request.body.email, request.body.password)
-    val message = result.username match {
-      case "" => "Wrong email or Password! Please try again."
-      case _  => "Login successfully!"
+  def login() = Action { implicit request =>
+    val form = loginForm.bindFromRequest
+    val result: Option[Account] = repository.resolveBy(form.data("email"), form.data("password"))
+    val response: Map[String, String] = result match {
+      case Some(account) => Map("info" -> "Login successfully!", "username" -> account.username)
+      case None          => Map("info" -> "Wrong email or Password! Please try again.", "username" -> "")
     }
-    Redirect(request.body.origin).flashing("info" -> message).withSession("username" -> result.username)
+    Redirect(form.data("origin")).flashing("info" -> response("info")).withSession("username" -> response("username"))
   }
 }
