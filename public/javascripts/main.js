@@ -21,13 +21,10 @@ $(document).ready(function() {
     })
 
     if($("#login-information").html() != "") $("#login-button").hide()
+
+    if($("#login-message").html() != "") alert($("#login-message").html())
 });
 
 function login(){
     $('#login-form').show()
-}
-
-function logout(){
-    var result = confirm("Are you sure you want to log out?");
-    if(result) window.location = "/logout";
 }

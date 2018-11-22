@@ -22,3 +22,7 @@
 #login-button {
     cursor: pointer;
 }
+
+#login-message {
+    display: none;
+}
