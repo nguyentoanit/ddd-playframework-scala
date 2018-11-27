@@ -1,14 +1,14 @@
 package application
 
-import application.forms.Account.{ passwordCheckConstraint, usernameCheckConstraint }
+import application.forms.Account.{passwordCheckConstraint, usernameCheckConstraint}
 import application.forms.CreatingInput
 import domain.Account.entity.Account
 import domain.Account.repository.AccountRepository
-import javax.inject.{ Inject, Singleton }
+import javax.inject.{Inject, Singleton}
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.{ Lang, Messages }
-import play.api.mvc.{ AbstractController, ControllerComponents, EssentialAction }
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{AbstractController, ControllerComponents, EssentialAction}
 import application.forms.LoginData
 import application.forms.Login.loginForm
 

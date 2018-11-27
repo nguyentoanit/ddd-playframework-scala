@@ -2,7 +2,7 @@ package application.forms
 
 import play.api.data.Forms._
 import play.api.data._
-import play.api.data.validation.{ Constraint, Invalid, Valid }
+import play.api.data.validation.{Constraint, Invalid, Valid}
 
 case class CreatingInput(username: String, mailAddress: String, password: String, repeatedPassword: String) {
   require(password == repeatedPassword, "Password not match")

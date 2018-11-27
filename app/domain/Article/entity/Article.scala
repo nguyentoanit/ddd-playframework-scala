@@ -2,7 +2,7 @@ package domain.Article.entity
 
 import java.util.Date
 
-import domain.Article.valueobject.{ ArticleID, FilePath }
+import domain.Article.valueobject.{ArticleID, FilePath}
 
 case class Article(title: String, thumbnail: FilePath, content: String, id: ArticleID = null, createdAt: Date = null, updatedAt: Date = null) {
   require(title.length > 0, "title is required")

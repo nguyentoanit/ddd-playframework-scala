@@ -10,10 +10,10 @@ private object ArticleDAO extends SQLSyntaxSupport[ArticleDTO] {
 
   def apply(a: ResultName[ArticleDTO])(rs: WrappedResultSet): ArticleDTO =
     ArticleDTO(
-      id = rs.long(a.id),
-      title = rs.string(a.title),
+      id        = rs.long(a.id),
+      title     = rs.string(a.title),
       thumbnail = rs.string(a.thumbnail),
-      content = rs.string(a.content),
+      content   = rs.string(a.content),
       createdAt = rs.date(a.createdAt),
       updatedAt = rs.date(a.updatedAt)
     )

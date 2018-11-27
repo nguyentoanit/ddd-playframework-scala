@@ -1,7 +1,7 @@
 package domain.Article.repository
 
 import domain.Article.entity.Article
-import domain.Article.valueobject.{ ArticleID, FilePath }
+import domain.Article.valueobject.{ArticleID, FilePath}
 import exception.EntityNotFoundException
 import infrastructure.dao.ArticleDAO
 import infrastructure.dto.ArticleDTO

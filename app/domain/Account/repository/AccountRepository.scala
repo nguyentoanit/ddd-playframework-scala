@@ -14,7 +14,8 @@ class AccountRepository @Inject() (dao: AccountDAO) {
     try {
       val id: Long = dao.store(toDTO(input))
       Right(Account(input.username, input.email, input.password, id))
-    } catch {
+    }
+    catch {
       case e: SQLException => Left(e.getMessage)
     }
   }
