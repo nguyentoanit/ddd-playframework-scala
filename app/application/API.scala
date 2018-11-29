@@ -3,6 +3,7 @@ import play.api.mvc._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import javax.inject._
+import play.api.Configuration
 
 case class Location(lat: Double, long: Double)
 
@@ -25,7 +26,7 @@ object Place {
     list = list ::: List(place)
   }
 }
-class ApiApplication @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
+class ApiApplication @Inject() (cc: ControllerComponents, config: Configuration) extends AbstractController(cc) {
   implicit val locationWrites: Writes[Location] = (
     (__ \ "lat").write[Double] and
     (__ \ "long").write[Double]
@@ -46,6 +47,9 @@ class ApiApplication @Inject() (cc: ControllerComponents) extends AbstractContro
     (__ \ "location").read[Location]
   )(Place.apply _)
 
+  // implicit val placeWrites = Json.writes[Place]
+  // implicit val placeReads = Json.reads[Place]
+
   def listPlaces = Action {
     val json = Json.toJson(Place.list)
     Ok(json)
@@ -62,5 +66,15 @@ class ApiApplication @Inject() (cc: ControllerComponents) extends AbstractContro
         Ok(Json.obj("status" -> "OK", "message" -> ("Place '" + place.name + "' saved.")))
       }
     )
+  }
+
+  def playTransform = Action { request =>
+    val json = Json.obj("key1" -> "value1", "key2" -> Json.obj("key21" -> "value21", "key22" -> "value22"))
+    val jsonTransformer = (__ \ "key2").json.pick
+    Ok(json.transform(jsonTransformer).toString)
+  }
+
+  def getConfiguration = Action { request =>
+    Ok(config.get[String]("db.default.username"))
   }
 }
