@@ -9,3 +9,5 @@ DDD example for Play Framework
 - Account: Create account and login
 
 > Design domain on draw.io: /designs
+
+Give me a star 🌟 if you like them. Thanks.
